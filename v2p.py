@@ -12,6 +12,9 @@ if not os.path.exists(output_dir):
 # 获取视频文件夹中的所有视频文件
 video_files = [f for f in os.listdir(video_dir) if f.endswith('.mp4') or f.endswith('.avi') or f.endswith('.mov')]
 
+# 定义每隔多少秒提取一张图片
+extract_interval_seconds = 2  # 可以修改为需要的秒数
+
 # 处理每个视频文件
 for video_file in video_files:
     video_path = os.path.join(video_dir, video_file)
@@ -33,8 +36,8 @@ for video_file in video_files:
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     frame_count = 0
 
-    # 设置保存每隔多少帧提取一张图片，比如每秒1帧
-    interval = fps  # 每秒提取一帧
+    # 计算保存每隔多少帧提取一张图片
+    interval = fps * extract_interval_seconds
 
     while cap.isOpened():
         ret, frame = cap.read()
